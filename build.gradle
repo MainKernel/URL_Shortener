@@ -3,7 +3,13 @@ plugins {
 	id 'org.springframework.boot' version '3.3.0'
 	id 'io.spring.dependency-management' version '1.1.5'
 }
-
+ext {
+	set("springCacheVersion", "3.3.0")
+	set("jwtTokenVersion", "0.12.5")
+	set("apacheCommonsVersion", "3.14.0")
+	set("h2Version", "2.2.220")
+	set("openApiVersion", "2.4.0")
+}
 group = 'com'
 version = '0.0.1-SNAPSHOT'
 
@@ -17,8 +23,42 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+
+	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+
+	compileOnly 'org.projectlombok:lombok'
+
+	runtimeOnly "com.h2database:h2:${h2Version}"
+	runtimeOnly 'org.postgresql:postgresql'
+
+
+	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	implementation 'org.flywaydb:flyway-core'
+	implementation "org.flywaydb:flyway-database-postgresql"
+	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.4.0")
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+
+
+	implementation("io.jsonwebtoken:jjwt-api:${jwtTokenVersion}")
+
+	runtimeOnly("io.jsonwebtoken:jjwt-impl:${jwtTokenVersion}")
+	runtimeOnly("io.jsonwebtoken:jjwt-jackson:${jwtTokenVersion}")
+
+
+	implementation("org.apache.commons:commons-lang3:${apacheCommonsVersion}")
+
+	testImplementation 'org.testcontainers:junit-jupiter'
+	testImplementation 'org.testcontainers:postgresql'
+	testImplementation 'org.springframework.boot:spring-boot-testcontainers'
+	testImplementation 'org.springframework.security:spring-security-test'
+
+	implementation("org.springframework.boot:spring-boot-starter-cache:${springCacheVersion}")
+
+	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:${openApiVersion}")
+
 }
 
 tasks.named('test') {
